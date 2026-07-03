@@ -328,9 +328,9 @@ const fr: SiteContent = {
         id: "l5",
         ts: "2024-03-30 10:12:08",
         level: "INFO",
-        sys: "TIPE_ALGO",
-        msg: "Convergence oscillatoire Physarum iter 3000-3500 — oscillation conductance ±12%",
-        fix: "Tuning γ 1.8→1.4, ajout μ_decay=0.0001/iter. Convergence stable iter 2800, δ<0.001.",
+        sys: "TIPE_AILE",
+        msg: "Cadrage FEM/SIMP figé — risque identifié : faire confiance au solveur avant validation analytique",
+        fix: "Décision : coder d'abord la FEM 2D contraintes planes, puis valider sur un cas analytique simple avant d'empiler la boucle SIMP et l'export STL.",
       },
       {
         id: "l6",
@@ -565,8 +565,9 @@ const en: SiteContent = {
       },
       {
         ...fr.atelier.logs[4],
-        msg: "Oscillating Physarum convergence iter 3000-3500 — conductance oscillation ±12%",
-        fix: "Tuned γ 1.8→1.4, added μ_decay=0.0001/iter. Stable convergence at iter 2800, δ<0.001.",
+        sys: "TIPE_WING",
+        msg: "FEM/SIMP scope locked — identified risk: trusting the solver before analytical validation",
+        fix: "Decision: implement the 2D plane-stress FEM first, validate it on a simple analytical case, then layer the SIMP loop and STL export on top.",
       },
       {
         ...fr.atelier.logs[5],
