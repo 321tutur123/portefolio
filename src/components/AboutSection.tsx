@@ -123,7 +123,7 @@ export default function AboutSection() {
               userSelect: "none",
             }}
           >
-            "
+            &ldquo;
           </div>
           <p
             style={{

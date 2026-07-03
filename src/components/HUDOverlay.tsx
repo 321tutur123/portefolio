@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
 
 export default function HUDOverlay() {
   const [time, setTime] = useState("");
@@ -101,7 +100,7 @@ export default function HUDOverlay() {
       {/* Bottom-left version */}
       <div className="fixed bottom-6 left-6 z-50 pointer-events-none">
         <div className="font-mono-custom text-[9px] text-white/10 tracking-widest">
-          BUILD 2025.01 — NEXT.JS 15
+          BUILD 2026.07 — NEXT.JS 16
         </div>
       </div>
     </>

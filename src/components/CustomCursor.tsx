@@ -16,6 +16,8 @@ export default function CustomCursor() {
     let mouseY = 0;
     let ringX = 0;
     let ringY = 0;
+    let raf = 0;
+    const hoverTargets = new Set<Element>();
 
     const onMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
@@ -27,7 +29,7 @@ export default function CustomCursor() {
       ringX += (mouseX - ringX) * 0.12;
       ringY += (mouseY - ringY) * 0.12;
       gsap.set(ring, { x: ringX, y: ringY });
-      requestAnimationFrame(lerp);
+      raf = requestAnimationFrame(lerp);
     };
 
     const onMouseEnterLink = () => {
@@ -42,6 +44,8 @@ export default function CustomCursor() {
 
     const addHoverListeners = () => {
       document.querySelectorAll("a, button, [data-cursor]").forEach((el) => {
+        if (hoverTargets.has(el)) return;
+        hoverTargets.add(el);
         el.addEventListener("mouseenter", onMouseEnterLink);
         el.addEventListener("mouseleave", onMouseLeaveLink);
       });
@@ -49,7 +53,7 @@ export default function CustomCursor() {
 
     window.addEventListener("mousemove", onMouseMove);
     addHoverListeners();
-    const raf = requestAnimationFrame(lerp);
+    raf = requestAnimationFrame(lerp);
 
     const observer = new MutationObserver(addHoverListeners);
     observer.observe(document.body, { childList: true, subtree: true });
@@ -58,6 +62,11 @@ export default function CustomCursor() {
       window.removeEventListener("mousemove", onMouseMove);
       cancelAnimationFrame(raf);
       observer.disconnect();
+      hoverTargets.forEach((el) => {
+        el.removeEventListener("mouseenter", onMouseEnterLink);
+        el.removeEventListener("mouseleave", onMouseLeaveLink);
+      });
+      hoverTargets.clear();
     };
   }, []);
 

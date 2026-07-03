@@ -9,9 +9,15 @@ gsap.registerPlugin(ScrollTrigger);
 export function useLenis() {
   useEffect(() => {
     let lenis: import("lenis").default | null = null;
+    let mounted = true;
+
+    const updateLenis = (time: number) => {
+      lenis?.raf(time * 1000);
+    };
 
     const init = async () => {
       const Lenis = (await import("lenis")).default;
+      if (!mounted) return;
 
       lenis = new Lenis({
         duration: 1.6,
@@ -26,9 +32,7 @@ export function useLenis() {
       lenis.on("scroll", ScrollTrigger.update);
 
       // ← THE FIX: use gsap ticker (not rAF) so timing is synced
-      gsap.ticker.add((time) => {
-        lenis?.raf(time * 1000);
-      });
+      gsap.ticker.add(updateLenis);
 
       // ← Prevents lag compensation that breaks smooth feel
       gsap.ticker.lagSmoothing(0);
@@ -37,8 +41,10 @@ export function useLenis() {
     init();
 
     return () => {
+      mounted = false;
+      gsap.ticker.remove(updateLenis);
       lenis?.destroy();
-      gsap.ticker.remove(() => {});
+      lenis = null;
     };
   }, []);
 }
